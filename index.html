@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Credgeniee PVC ID Card Generator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="form-box">
+
+    <h2>ID Card Generator</h2>
+
+    <input type="text" id="name" placeholder="Agent Name">
+    <input type="text" id="empid" placeholder="Employee ID">
+    <input type="text" id="designation" placeholder="Designation">
+    <input type="text" id="mobile" placeholder="Mobile Number">
+    <input type="text" id="emergency" placeholder="Emergency Contact">
+    <input type="file" id="photo" accept="image/*">
+
+    <button onclick="generateCard()">Generate Card</button>
+
+    <button id="downloadBtn">Download ID Card</button>
+
+    <button onclick="flipCard()">Show Front / Back</button>
+
+</div>
+
+<div class="card-wrapper">
+
+    <div class="flip-card" id="flipCard">
+
+        <!-- FRONT -->
+        <div class="card front">
+
+            <div class="top-strip"></div>
+
+            <img src="logo.png" class="logo">
+
+            <h3>Credgeniee India Pvt. Ltd.</h3>
+
+            <p class="tagline">
+                Simplifying finance, amplifying growth
+            </p>
+
+            <img id="previewPhoto" class="photo">
+
+            <h2 id="cardName">Agent Name</h2>
+
+            <div id="cardId">EMP ID</div>
+
+            <div class="designation-badge">
+                <span id="cardDesignation">Designation</span>
+            </div>
+
+            <div class="employee-type">
+                AUTHORIZED STAFF
+            </div>
+
+            <div class="qr-box">
+                QR VERIFIED
+            </div>
+
+            <div class="bottom-strip"></div>
+
+        </div>
+
+        <!-- BACK -->
+        <div class="card back">
+
+            <div class="top-strip"></div>
+
+            <img src="logo.png" class="logo back-logo">
+
+            <div class="back-header">
+              EMPLOYEE INFORMATION
+            </div>
+
+            <div class="info-box">
+                <div class="info-title">Mobile Number</div>
+                <div class="info-value" id="backMobile">XXXXXXXXXX</div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-title">Emergency Contact</div>
+                <div class="info-value" id="backEmergency">XXXXXXXXXX</div>
+            </div>
+
+            <hr>
+
+            <div class="info-box">
+
+                <div class="info-title">Office Address</div>
+
+                <div class="info-value">
+                    Credgeniee India Pvt. Ltd.<br>
+                    A 84 F-2 Sector 4<br>
+                    Noida - 201301<br>
+                    Near Globus Building
+                </div>
+
+                <div class="signature">
+                    Authorized Signature
+                    <div class="signature-note">If found please return to company</div>
+                </div>
+
+            </div>
+
+            <div class="bottom-strip"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- ===================== DOWNLOAD FIX ===================== -->
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<script>
+document.getElementById("downloadBtn").addEventListener("click", function () {
+
+  const card = document.querySelector(".card-wrapper");
+
+  const clone = card.cloneNode(true);
+  document.body.appendChild(clone);
+
+  clone.style.position = "fixed";
+  clone.style.left = "-9999px";
+
+  html2canvas(clone, {
+    scale: 2,
+    useCORS: true,
+    allowTaint: true,
+    backgroundColor: "#fff"
+  }).then(canvas => {
+
+    const a = document.createElement("a");
+    a.href = canvas.toDataURL("image/png");
+    a.download = "id-card.png";
+
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    document.body.removeChild(clone);
+
+  }).catch(err => {
+    console.log(err);
+    alert("Still blocked by browser security");
+  });
+
+});
+</script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
