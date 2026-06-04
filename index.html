@@ -164,20 +164,24 @@ function generateCard(){
 
 // ================= FLIP =================
 function flipCard(){
-    document.getElementById("flipCard").classList.toggle("flipped");
-}
+document.getElementById("downloadBtn").addEventListener("click", async function () {
 
-// ================= DOWNLOAD FIX =================
-document.getElementById("downloadBtn").addEventListener("click", function () {
+  const cardWrapper = document.querySelector(".card-wrapper");
 
-  const element = document.getElementById("captureArea");
+  // temporarily force front visible (no flip effect)
+  const flip = document.getElementById("flipCard");
+  const originalClass = flip.className;
 
-  html2canvas(element, {
+  // REMOVE flip effect before capture
+  flip.classList.remove("flipped");
+
+  await new Promise(r => setTimeout(r, 300));
+
+  html2canvas(cardWrapper, {
     scale: 2,
     useCORS: true,
     backgroundColor: "#ffffff",
-    scrollX: 0,
-    scrollY: 0
+    removeContainer: true
   }).then(canvas => {
 
     const link = document.createElement("a");
@@ -186,10 +190,12 @@ document.getElementById("downloadBtn").addEventListener("click", function () {
 
     link.click();
 
+    // restore flip state back
+    flip.className = originalClass;
+
   });
 
 });
-</script>
 
 </body>
 </html>
