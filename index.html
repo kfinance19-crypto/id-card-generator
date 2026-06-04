@@ -3,10 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Credgeniee PVC ID Card Generator</title>
+<title>ID Card Generator</title>
 
 <link rel="stylesheet" href="style.css">
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<!-- PDF LIBRARY -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 </head>
 
 <body>
@@ -25,12 +28,14 @@
     <input type="file" id="photo" accept="image/*">
 
     <button onclick="generateCard()">Generate Card</button>
-    <button id="downloadBtn">Download ID Card</button>
+
+    <button id="downloadBtn">Download PDF</button>
+
     <button onclick="flipCard()">Show Front / Back</button>
 
 </div>
 
-<!-- ================= CARD AREA ================= -->
+<!-- CARD AREA -->
 <div id="captureArea">
 
 <div class="card-wrapper">
@@ -115,12 +120,10 @@
 
 </div>
 
-<!-- ================= JS ================= -->
-<script src="script.js"></script>
-
+<!-- JS -->
 <script>
 
-// ================= GENERATE =================
+// ========== GENERATE ==========
 function generateCard(){
 
     document.getElementById("cardName").innerText =
@@ -149,40 +152,25 @@ function generateCard(){
     }
 }
 
-// ================= FLIP =================
+// ========== FLIP ==========
 function flipCard(){
     document.getElementById("flipCard").classList.toggle("flipped");
 }
 
-// ================= DOWNLOAD FIX (FINAL) =================
+// ========== FINAL PDF DOWNLOAD FIX ==========
 document.getElementById("downloadBtn").addEventListener("click", function () {
 
-  const flip = document.getElementById("flipCard");
+    const element = document.getElementById("captureArea");
 
-  // temporarily remove flip (fix mirror issue)
-  const oldClass = flip.className;
-  flip.classList.remove("flipped");
+    const opt = {
+        margin: 0,
+        filename: 'ID_CARD.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 3, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
 
-  setTimeout(() => {
-
-    html2canvas(document.getElementById("captureArea"), {
-      scale: 3,
-      useCORS: true,
-      backgroundColor: "#ffffff"
-    }).then(canvas => {
-
-      const link = document.createElement("a");
-      link.download = "id-card.png";
-      link.href = canvas.toDataURL("image/png");
-
-      link.click();
-
-      // restore flip
-      flip.className = oldClass;
-
-    });
-
-  }, 300);
+    html2pdf().set(opt).from(element).save();
 
 });
 
