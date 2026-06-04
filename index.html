@@ -4,13 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Credgeniee PVC ID Card Generator</title>
+
 <link rel="stylesheet" href="style.css">
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 
 <body>
 
 <div class="container">
 
+<!-- FORM -->
 <div class="form-box">
 
     <h2>ID Card Generator</h2>
@@ -29,6 +33,9 @@
     <button onclick="flipCard()">Show Front / Back</button>
 
 </div>
+
+<!-- CAPTURE AREA (IMPORTANT) -->
+<div id="captureArea">
 
 <div class="card-wrapper">
 
@@ -120,46 +127,69 @@
 
 </div>
 
-<!-- ===================== DOWNLOAD FIX ===================== -->
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</div>
+
+<!-- JS -->
+<script src="script.js"></script>
 
 <script>
+// ================= GENERATE CARD =================
+function generateCard(){
+
+    document.getElementById("cardName").innerText =
+        document.getElementById("name").value || "Agent Name";
+
+    document.getElementById("cardId").innerText =
+        "EMP ID : " + document.getElementById("empid").value;
+
+    document.getElementById("cardDesignation").innerText =
+        document.getElementById("designation").value;
+
+    document.getElementById("backMobile").innerText =
+        document.getElementById("mobile").value;
+
+    document.getElementById("backEmergency").innerText =
+        document.getElementById("emergency").value;
+
+    const photo = document.getElementById("photo").files[0];
+
+    if(photo){
+        const reader = new FileReader();
+        reader.onload = function(e){
+            document.getElementById("previewPhoto").src = e.target.result;
+        };
+        reader.readAsDataURL(photo);
+    }
+}
+
+// ================= FLIP =================
+function flipCard(){
+    document.getElementById("flipCard").classList.toggle("flipped");
+}
+
+// ================= DOWNLOAD FIX =================
 document.getElementById("downloadBtn").addEventListener("click", function () {
 
-  const card = document.querySelector(".card-wrapper");
+  const element = document.getElementById("captureArea");
 
-  const clone = card.cloneNode(true);
-  document.body.appendChild(clone);
-
-  clone.style.position = "fixed";
-  clone.style.left = "-9999px";
-
-  html2canvas(clone, {
+  html2canvas(element, {
     scale: 2,
     useCORS: true,
-    allowTaint: true,
-    backgroundColor: "#fff"
+    backgroundColor: "#ffffff",
+    scrollX: 0,
+    scrollY: 0
   }).then(canvas => {
 
-    const a = document.createElement("a");
-    a.href = canvas.toDataURL("image/png");
-    a.download = "id-card.png";
+    const link = document.createElement("a");
+    link.download = "id-card.png";
+    link.href = canvas.toDataURL("image/png");
 
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    link.click();
 
-    document.body.removeChild(clone);
-
-  }).catch(err => {
-    console.log(err);
-    alert("Still blocked by browser security");
   });
 
 });
 </script>
-
-<script src="script.js"></script>
 
 </body>
 </html>
