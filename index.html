@@ -6,7 +6,6 @@
 <title>Credgeniee PVC ID Card Generator</title>
 
 <link rel="stylesheet" href="style.css">
-
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 
@@ -14,7 +13,6 @@
 
 <div class="container">
 
-<!-- FORM -->
 <div class="form-box">
 
     <h2>ID Card Generator</h2>
@@ -27,14 +25,12 @@
     <input type="file" id="photo" accept="image/*">
 
     <button onclick="generateCard()">Generate Card</button>
-
     <button id="downloadBtn">Download ID Card</button>
-
     <button onclick="flipCard()">Show Front / Back</button>
 
 </div>
 
-<!-- CAPTURE AREA (IMPORTANT) -->
+<!-- ================= CARD AREA ================= -->
 <div id="captureArea">
 
 <div class="card-wrapper">
@@ -50,9 +46,7 @@
 
             <h3>Credgeniee India Pvt. Ltd.</h3>
 
-            <p class="tagline">
-                Simplifying finance, amplifying growth
-            </p>
+            <p class="tagline">Simplifying finance, amplifying growth</p>
 
             <img id="previewPhoto" class="photo">
 
@@ -64,13 +58,9 @@
                 <span id="cardDesignation">Designation</span>
             </div>
 
-            <div class="employee-type">
-                AUTHORIZED STAFF
-            </div>
+            <div class="employee-type">AUTHORIZED STAFF</div>
 
-            <div class="qr-box">
-                QR VERIFIED
-            </div>
+            <div class="qr-box">QR VERIFIED</div>
 
             <div class="bottom-strip"></div>
 
@@ -83,9 +73,7 @@
 
             <img src="logo.png" class="logo back-logo">
 
-            <div class="back-header">
-              EMPLOYEE INFORMATION
-            </div>
+            <div class="back-header">EMPLOYEE INFORMATION</div>
 
             <div class="info-box">
                 <div class="info-title">Mobile Number</div>
@@ -127,13 +115,12 @@
 
 </div>
 
-</div>
-
-<!-- JS -->
+<!-- ================= JS ================= -->
 <script src="script.js"></script>
 
 <script>
-// ================= GENERATE CARD =================
+
+// ================= GENERATE =================
 function generateCard(){
 
     document.getElementById("cardName").innerText =
@@ -155,7 +142,7 @@ function generateCard(){
 
     if(photo){
         const reader = new FileReader();
-        reader.onload = function(e){
+        reader.onload = e => {
             document.getElementById("previewPhoto").src = e.target.result;
         };
         reader.readAsDataURL(photo);
@@ -164,38 +151,42 @@ function generateCard(){
 
 // ================= FLIP =================
 function flipCard(){
-document.getElementById("downloadBtn").addEventListener("click", async function () {
+    document.getElementById("flipCard").classList.toggle("flipped");
+}
 
-  const cardWrapper = document.querySelector(".card-wrapper");
+// ================= DOWNLOAD FIX (FINAL) =================
+document.getElementById("downloadBtn").addEventListener("click", function () {
 
-  // temporarily force front visible (no flip effect)
   const flip = document.getElementById("flipCard");
-  const originalClass = flip.className;
 
-  // REMOVE flip effect before capture
+  // temporarily remove flip (fix mirror issue)
+  const oldClass = flip.className;
   flip.classList.remove("flipped");
 
-  await new Promise(r => setTimeout(r, 300));
+  setTimeout(() => {
 
-  html2canvas(cardWrapper, {
-    scale: 2,
-    useCORS: true,
-    backgroundColor: "#ffffff",
-    removeContainer: true
-  }).then(canvas => {
+    html2canvas(document.getElementById("captureArea"), {
+      scale: 3,
+      useCORS: true,
+      backgroundColor: "#ffffff"
+    }).then(canvas => {
 
-    const link = document.createElement("a");
-    link.download = "id-card.png";
-    link.href = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.download = "id-card.png";
+      link.href = canvas.toDataURL("image/png");
 
-    link.click();
+      link.click();
 
-    // restore flip state back
-    flip.className = originalClass;
+      // restore flip
+      flip.className = oldClass;
 
-  });
+    });
+
+  }, 300);
 
 });
+
+</script>
 
 </body>
 </html>
