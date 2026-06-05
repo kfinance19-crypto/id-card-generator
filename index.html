@@ -7,8 +7,8 @@
 
 <link rel="stylesheet" href="style.css">
 
-<!-- PDF LIBRARY -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- JS LIBRARIES -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </head>
 
@@ -28,16 +28,12 @@
     <input type="file" id="photo" accept="image/*">
 
     <button onclick="generateCard()">Generate Card</button>
-
     <button id="downloadBtn">Download PDF</button>
-
     <button onclick="flipCard()">Show Front / Back</button>
 
 </div>
 
 <!-- CARD AREA -->
-<div id="captureArea">
-
 <div class="card-wrapper">
 
     <div class="flip-card" id="flipCard">
@@ -120,10 +116,9 @@
 
 </div>
 
-<!-- JS -->
+<!-- ================= JS ================= -->
 <script>
 
-// ========== GENERATE ==========
 function generateCard(){
 
     document.getElementById("cardName").innerText =
@@ -152,25 +147,37 @@ function generateCard(){
     }
 }
 
-// ========== FLIP ==========
 function flipCard(){
     document.getElementById("flipCard").classList.toggle("flipped");
 }
 
-// ========== FINAL PDF DOWNLOAD FIX ==========
+// ================= FINAL PDF DOWNLOAD =================
 document.getElementById("downloadBtn").addEventListener("click", function () {
 
-    const element = document.getElementById("captureArea");
+    const { jsPDF } = window.jspdf;
 
-    const opt = {
-        margin: 0,
-        filename: 'ID_CARD.pdf',
-        image: { type: 'jpeg', quality: 1 },
-        html2canvas: { scale: 3, useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
+    const pdf = new jsPDF("p", "mm", "a4");
 
-    html2pdf().set(opt).from(element).save();
+    const front = document.querySelector(".front");
+    const back = document.querySelector(".back");
+
+    pdf.html(front, {
+        callback: function (doc) {
+
+            doc.addPage();
+
+            doc.html(back, {
+                callback: function (doc2) {
+                    doc2.save("ID_CARD.pdf");
+                },
+                x: 10,
+                y: 10
+            });
+
+        },
+        x: 10,
+        y: 10
+    });
 
 });
 
