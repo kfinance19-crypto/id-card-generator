@@ -7,7 +7,6 @@
 
 <link rel="stylesheet" href="style.css">
 
-<!-- JS LIBRARIES -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </head>
@@ -34,12 +33,12 @@
 </div>
 
 <!-- CARD AREA -->
-<div class="card-wrapper">
+<div class="card-wrapper" id="cardArea">
 
     <div class="flip-card" id="flipCard">
 
         <!-- FRONT -->
-        <div class="card front">
+        <div class="card front" id="frontCard">
 
             <div class="top-strip"></div>
 
@@ -55,20 +54,12 @@
 
             <div id="cardId">EMP ID</div>
 
-            <div class="designation-badge">
-                <span id="cardDesignation">Designation</span>
-            </div>
-
-            <div class="employee-type">AUTHORIZED STAFF</div>
-
-            <div class="qr-box">QR VERIFIED</div>
-
-            <div class="bottom-strip"></div>
+            <div id="cardDesignation" class="designation-badge"></div>
 
         </div>
 
         <!-- BACK -->
-        <div class="card back">
+        <div class="card back" id="backCard">
 
             <div class="top-strip"></div>
 
@@ -76,37 +67,8 @@
 
             <div class="back-header">EMPLOYEE INFORMATION</div>
 
-            <div class="info-box">
-                <div class="info-title">Mobile Number</div>
-                <div class="info-value" id="backMobile">XXXXXXXXXX</div>
-            </div>
-
-            <div class="info-box">
-                <div class="info-title">Emergency Contact</div>
-                <div class="info-value" id="backEmergency">XXXXXXXXXX</div>
-            </div>
-
-            <hr>
-
-            <div class="info-box">
-
-                <div class="info-title">Office Address</div>
-
-                <div class="info-value">
-                    Credgeniee India Pvt. Ltd.<br>
-                    A 84 F-2 Sector 4<br>
-                    Noida - 201301<br>
-                    Near Globus Building
-                </div>
-
-                <div class="signature">
-                    Authorized Signature
-                    <div class="signature-note">If found please return to company</div>
-                </div>
-
-            </div>
-
-            <div class="bottom-strip"></div>
+            <div class="info-value" id="backMobile"></div>
+            <div class="info-value" id="backEmergency"></div>
 
         </div>
 
@@ -116,72 +78,7 @@
 
 </div>
 
-<!-- ================= JS ================= -->
-<script>
-
-function generateCard(){
-
-    document.getElementById("cardName").innerText =
-        document.getElementById("name").value || "Agent Name";
-
-    document.getElementById("cardId").innerText =
-        "EMP ID : " + document.getElementById("empid").value;
-
-    document.getElementById("cardDesignation").innerText =
-        document.getElementById("designation").value;
-
-    document.getElementById("backMobile").innerText =
-        document.getElementById("mobile").value;
-
-    document.getElementById("backEmergency").innerText =
-        document.getElementById("emergency").value;
-
-    const photo = document.getElementById("photo").files[0];
-
-    if(photo){
-        const reader = new FileReader();
-        reader.onload = e => {
-            document.getElementById("previewPhoto").src = e.target.result;
-        };
-        reader.readAsDataURL(photo);
-    }
-}
-
-function flipCard(){
-    document.getElementById("flipCard").classList.toggle("flipped");
-}
-
-// ================= FINAL PDF DOWNLOAD =================
-document.getElementById("downloadBtn").addEventListener("click", function () {
-
-    const { jsPDF } = window.jspdf;
-
-    const pdf = new jsPDF("p", "mm", "a4");
-
-    const front = document.querySelector(".front");
-    const back = document.querySelector(".back");
-
-    pdf.html(front, {
-        callback: function (doc) {
-
-            doc.addPage();
-
-            doc.html(back, {
-                callback: function (doc2) {
-                    doc2.save("ID_CARD.pdf");
-                },
-                x: 10,
-                y: 10
-            });
-
-        },
-        x: 10,
-        y: 10
-    });
-
-});
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
