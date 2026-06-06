@@ -1,58 +1,305 @@
 body{
   margin:0;
   padding:20px;
-  font-family:Arial;
   background:#eef2f7;
+  font-family:Arial,sans-serif;
 }
 
+/* MAIN LAYOUT */
 .container{
   display:flex;
-  gap:30px;
+  gap:40px;
+  flex-wrap:wrap;
   justify-content:center;
+  align-items:flex-start;
 }
 
+/* FORM */
 .form-box{
-  width:300px;
+  width:320px;
   background:#fff;
   padding:20px;
-  border-radius:10px;
+  border-radius:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,.1);
 }
 
-.form-box input,button{
+.form-box h2{
+  text-align:center;
+  color:#112B74;
+}
+
+.form-box input{
   width:100%;
-  margin-top:10px;
-  padding:10px;
+  padding:12px;
+  margin-bottom:12px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  box-sizing:border-box;
 }
 
+.form-box button{
+  width:100%;
+  padding:12px;
+  margin-top:8px;
+  border:none;
+  border-radius:10px;
+  background:#69B84A;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* CARD WRAPPER */
 .card-wrapper{
-  width:360px;
+  perspective:1200px;
 }
 
+.flip-card{
+  width:360px;
+  height:580px;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform .8s;
+}
+
+.flip-card.flipped{
+  transform:rotateY(180deg);
+}
+
+/* FRONT & BACK */
 .card{
   width:100%;
-  height:500px;
+  height:100%;
+  position:absolute;
+  border-radius:28px;
+  overflow:hidden;
   background:#fff;
-  border-radius:20px;
-  padding:20px;
-  box-shadow:0 10px 20px rgba(0,0,0,0.2);
-  margin-bottom:20px;
+  box-shadow:0 20px 50px rgba(0,0,0,.18);
+  backface-visibility:hidden;
 }
 
-.front, .back{
-  position:relative;
-  backface-visibility:visible;
-  transform:none;
+.back{
+  transform:rotateY(180deg);
+}
+
+/* DESIGN ELEMENTS */
+.top-strip{
+  height:90px;
+  background:linear-gradient(135deg,#69B84A,#112B74);
+  border-bottom-left-radius:50px;
+  border-bottom-right-radius:50px;
+}
+
+.bottom-strip{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:35px;
+  background:linear-gradient(90deg,#112B74,#69B84A);
 }
 
 .logo{
-  width:100px;
+  width:110px;
+  display:block;
+  margin:-50px auto 10px;
+  background:#fff;
+  padding:8px;
+  border-radius:18px;
+  box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+
+.card h3{
+  text-align:center;
+  color:#112B74;
+  margin:8px 15px 0;
+  font-size:20px;
+}
+
+.tagline{
+  text-align:center;
+  font-size:12px;
+  color:#222;
+  font-weight:600;
+  margin:5px 0 15px;
 }
 
 .photo{
-  width:120px;
-  height:120px;
+  width:135px;
+  height:135px;
+  display:block;
+  margin:0 auto;
   border-radius:50%;
   object-fit:cover;
-  display:block;
-  margin:auto;
+  border:6px solid #69B84A;
+  box-shadow:0 10px 20px rgba(0,0,0,.15);
+}
+
+#cardName{
+  text-align:center;
+  color:#112B74;
+  margin:15px 0 10px;
+}
+
+#cardId{
+  display:table;
+  margin:0 auto;
+  background:#112B74;
+  color:#fff;
+  padding:10px 18px;
+  border-radius:25px;
+  font-weight:bold;
+}
+
+.designation-badge{
+  text-align:center;
+  margin-top:15px;
+}
+
+#cardDesignation{
+  display:inline-block;
+  background:#69B84A;
+  color:#fff;
+  padding:8px 18px;
+  border-radius:20px;
+  font-weight:bold;
+}
+
+.employee-type{
+  text-align:center;
+  margin-top:12px;
+  font-size:12px;
+  color:#112B74;
+  font-weight:700;
+  letter-spacing:2px;
+}
+
+.qr-box{
+  width:95px;
+  height:95px;
+  margin:20px auto;
+  border:3px solid #112B74;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#112B74;
+  font-weight:bold;
+  font-size:11px;
+}
+
+/* BACK SIDE FIX */
+.back-content{
+  padding:10px 25px;
+  text-align:left;   /* IMPORTANT FIX */
+  color:#333;
+}
+
+.back-content p{
+  margin:8px 0;
+}
+
+/* INFO BOX DESIGN */
+.info-box {
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(0,0,0,0.1);
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #333;
+}
+
+.value {
+  font-size: 12.5px;
+  color: #555;
+  text-align: right;
+  max-width: 55%;
+  word-wrap: break-word;
+}
+
+.info-footer {
+  margin-top: 10px;
+  padding-top: 8px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #444;
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.info-footer small {
+  display: block;
+  font-weight: 400;
+  margin-top: 3px;
+  color: #777;
+}
+
+.info-title{
+  font-size:10px;
+  letter-spacing:1px;
+  color:#777;
+  font-weight:700;
+}
+
+.info-value{
+  font-size:14px;
+  color:#112B74;
+  font-weight:700;
+  line-height:1.3;
+}
+
+/* SIGNATURE */
+.signature {
+  text-align: center;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  font-weight: 600;
+  font-size: 13px;
+  display: block;
+}
+
+.signature-note {
+  font-size: 11px;
+  font-weight: 400;
+  color: #666;
+  margin-top: 3px;
+  display: block;
+}
+
+/* RETURN NOTE (FIXED SEPARATE BLOCK) */
+.return-note{
+  margin-top:12px;
+  font-size:12px;
+  color:#555;
+  text-align:center;
+}
+
+/* BACK HEADER */
+.back-header {
+  font-size: 18px;        /* thoda compact */
+  font-weight: 700;
+  padding: 6px 10px;
+  text-align: center;
+  line-height: 1.2;
+  border-radius: 6px;
+  margin-bottom: 6px;
+
+  /* IMPORTANT: match card theme */
+  background: linear-gradient(90deg, #2e7d32, #1565c0); 
+  color: #fff;
+
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
