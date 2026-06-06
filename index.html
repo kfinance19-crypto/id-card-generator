@@ -170,7 +170,7 @@ document.getElementById("downloadBtn").addEventListener("click", async function 
 
     const frontImg = frontCanvas.toDataURL("image/png");
 
-    pdf.addImage(frontImg, "PNG", 20, 10, 170, 273);
+    pdf.addImage(frontImg, "JPEG", 35, 15, 120, 193);
 
     // BACK IMAGE
     const backClone = back.cloneNode(true);
@@ -183,7 +183,7 @@ document.getElementById("downloadBtn").addEventListener("click", async function 
     document.body.appendChild(backClone);
 
     const backCanvas = await html2canvas(backClone, {
-        scale: 3,
+        scale: 1.5,
         useCORS: true,
         backgroundColor: null
     });
@@ -194,7 +194,7 @@ document.getElementById("downloadBtn").addEventListener("click", async function 
 
     pdf.addPage();
 
-    pdf.addImage(backImg, "PNG", 20, 10, 170, 273);
+    pdf.addImage(backImg, "JPEG", 35, 15, 120, 193);
 
     pdf.save("ID_CARD.pdf");
 
