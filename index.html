@@ -7,7 +7,9 @@
 
 <link rel="stylesheet" href="style.css">
 
+<!-- JS LIBRARIES -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 </head>
 
@@ -33,12 +35,12 @@
 </div>
 
 <!-- CARD AREA -->
-<div class="card-wrapper" id="cardArea">
+<div class="card-wrapper">
 
     <div class="flip-card" id="flipCard">
 
         <!-- FRONT -->
-        <div class="card front" id="frontCard">
+        <div class="card front">
 
             <div class="top-strip"></div>
 
@@ -54,12 +56,20 @@
 
             <div id="cardId">EMP ID</div>
 
-            <div id="cardDesignation" class="designation-badge"></div>
+            <div class="designation-badge">
+                <span id="cardDesignation">Designation</span>
+            </div>
+
+            <div class="employee-type">AUTHORIZED STAFF</div>
+
+            <div class="qr-box">QR VERIFIED</div>
+
+            <div class="bottom-strip"></div>
 
         </div>
 
         <!-- BACK -->
-        <div class="card back" id="backCard">
+        <div class="card back">
 
             <div class="top-strip"></div>
 
@@ -67,8 +77,37 @@
 
             <div class="back-header">EMPLOYEE INFORMATION</div>
 
-            <div class="info-value" id="backMobile"></div>
-            <div class="info-value" id="backEmergency"></div>
+            <div class="info-box">
+                <div class="info-title">Mobile Number</div>
+                <div class="info-value" id="backMobile">XXXXXXXXXX</div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-title">Emergency Contact</div>
+                <div class="info-value" id="backEmergency">XXXXXXXXXX</div>
+            </div>
+
+            <hr>
+
+            <div class="info-box">
+
+                <div class="info-title">Office Address</div>
+
+                <div class="info-value">
+                    Credgeniee India Pvt. Ltd.<br>
+                    A 84 F-2 Sector 4<br>
+                    Noida - 201301<br>
+                    Near Globus Building
+                </div>
+
+                <div class="signature">
+                    Authorized Signature
+                    <div class="signature-note">If found please return to company</div>
+                </div>
+
+            </div>
+
+            <div class="bottom-strip"></div>
 
         </div>
 
@@ -78,7 +117,87 @@
 
 </div>
 
-<script src="script.js"></script>
+<!-- ================= JS ================= -->
+<script>
+
+function generateCard(){
+
+    document.getElementById("cardName").innerText =
+        document.getElementById("name").value || "Agent Name";
+
+    document.getElementById("cardId").innerText =
+        "EMP ID : " + document.getElementById("empid").value;
+
+    document.getElementById("cardDesignation").innerText =
+        document.getElementById("designation").value;
+
+    document.getElementById("backMobile").innerText =
+        document.getElementById("mobile").value;
+
+    document.getElementById("backEmergency").innerText =
+        document.getElementById("emergency").value;
+
+    const photo = document.getElementById("photo").files[0];
+
+    if(photo){
+        const reader = new FileReader();
+        reader.onload = e => {
+            document.getElementById("previewPhoto").src = e.target.result;
+        };
+        reader.readAsDataURL(photo);
+    }
+}
+
+function flipCard(){
+    document.getElementById("flipCard").classList.toggle("flipped");
+}
+
+// ================= FINAL PDF DOWNLOAD =================
+// ================= FINAL PDF DOWNLOAD =================
+document.getElementById("downloadBtn").addEventListener("click", async function () {
+
+    const { jsPDF } = window.jspdf;
+
+    const pdf = new jsPDF("p", "mm", "a4");
+
+    const front = document.querySelector(".front");
+    const back = document.querySelector(".back");
+
+    // FRONT CARD
+    await pdf.html(front, {
+        x: 10,
+        y: 10,
+        html2canvas: {
+            scale: 2
+        }
+    });
+
+    // BACK CARD WITHOUT MIRROR
+    const backClone = back.cloneNode(true);
+
+    backClone.style.transform = "none";
+    backClone.style.position = "absolute";
+    backClone.style.left = "-9999px";
+
+    document.body.appendChild(backClone);
+
+    pdf.addPage();
+
+    await pdf.html(backClone, {
+        x: 10,
+        y: 10,
+        html2canvas: {
+            scale: 2
+        }
+    });
+
+    document.body.removeChild(backClone);
+
+    pdf.save("ID_CARD.pdf");
+
+});
+
+</script>
 
 </body>
 </html>
