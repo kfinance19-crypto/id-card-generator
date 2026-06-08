@@ -303,3 +303,65 @@ body{
 
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
+/* CONTACT SECTION */
+
+.contact-row{
+    width:78%;
+    margin:18px auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.contact-card{
+    width:42%;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.right-card{
+    justify-content:flex-end;
+}
+
+.contact-icon{
+    width:34px;
+    height:34px;
+    object-fit:contain;
+}
+
+.contact-title{
+    font-size:10px;
+    color:#666;
+    font-weight:600;
+}
+
+.contact-number{
+    font-size:14px;
+    font-weight:700;
+    color:#112B74;
+}
+
+.vertical-divider{
+    width:1px;
+    height:52px;
+    background:#d6d6d6;
+    margin:0 18px;
+}
+.address-box{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:15px 42px;
+}
+
+.location-icon{
+    width:36px;
+    height:36px;
+    object-fit:contain;
+    flex-shrink:0;
+}
+
+.address-content{
+    max-width:220px;
+}
