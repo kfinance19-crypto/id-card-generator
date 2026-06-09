@@ -209,15 +209,13 @@ document.getElementById("downloadBtn").addEventListener("click", async function 
 
     const finalCanvas = document.createElement("canvas");
 
-    const cardWidth = 900;
-const cardHeight = 1450;
-
-finalCanvas.width =
-    (cardWidth * 2) +
+    finalCanvas.width =
+    frontCanvas.width +
+    backCanvas.width +
     (margin * 3);
 
 finalCanvas.height =
-    cardHeight +
+    Math.max(frontCanvas.height, backCanvas.height) +
     (margin * 2);
 
     const ctx = finalCanvas.getContext("2d");
@@ -225,23 +223,16 @@ finalCanvas.height =
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
 
-    const cardWidth = 900;
-const cardHeight = 1450;
-
-ctx.drawImage(
+    ctx.drawImage(
     frontCanvas,
     margin,
-    margin,
-    cardWidth,
-    cardHeight
+    margin
 );
 
 ctx.drawImage(
     backCanvas,
-    cardWidth + (margin * 2),
-    margin,
-    cardWidth,
-    cardHeight
+    frontCanvas.width + (margin * 2),
+    margin
 );
 
     const link = document.createElement("a");
