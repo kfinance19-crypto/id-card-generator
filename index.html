@@ -29,7 +29,7 @@
     <input type="file" id="photo" accept="image/*">
 
     <button onclick="generateCard()">Generate Card</button>
-    <button id="downloadBtn">Download JPG</button>
+    <button id="downloadBtn">Download PDF</button>
     <button onclick="flipCard()">Show Front / Back</button>
 
 </div>
@@ -180,86 +180,49 @@ function flipCard(){
 
 document.getElementById("downloadBtn").addEventListener("click", async function () {
 
+    const { jsPDF } = window.jspdf;
+
+    const pdf = new jsPDF("p", "mm", "a4");
+
     const front = document.querySelector(".front");
     const back = document.querySelector(".back");
 
-    // Front Capture
-    const frontCanvas = await html2canvas(front,{
-        scale:2,
-        useCORS:true,
-        backgroundColor:"#ffffff"
+    // FRONT IMAGE
+    const frontCanvas = await html2canvas(front, {
+        scale: 3,
+        useCORS: true,
+        backgroundColor: null
     });
 
-    // Back Clone
+    const frontImg = frontCanvas.toDataURL("image/png");
+
+    pdf.addImage(frontImg, "JPEG", 35, 15, 120, 193);
+
+    // BACK IMAGE
     const backClone = back.cloneNode(true);
 
-    backClone.style.width = "360px";
-    backClone.style.height = "580px";
+    backClone.style.transform = "none";
     backClone.style.position = "absolute";
     backClone.style.left = "-9999px";
     backClone.style.top = "0";
-    backClone.style.transform = "none";
 
     document.body.appendChild(backClone);
 
-    const backCanvas = await html2canvas(backClone,{
-        scale:2,
-        useCORS:true,
-        backgroundColor:"#ffffff"
+    const backCanvas = await html2canvas(backClone, {
+        scale: 3,
+        useCORS: true,
+        backgroundColor: null
     });
 
     document.body.removeChild(backClone);
 
-    // Combined Canvas
-    const finalCanvas = document.createElement("canvas");
+    const backImg = backCanvas.toDataURL("image/png");
 
-    const paddingTop = 80;
-const paddingBottom = 220;
-const sidePadding = 80;
+    pdf.addPage();
 
-finalCanvas.width =
-frontCanvas.width + backCanvas.width + (sidePadding * 3);
+    pdf.addImage(backImg, "JPEG", 35, 15, 120, 193);
 
-finalCanvas.height =
-Math.max(frontCanvas.height, backCanvas.height)
-+ paddingTop
-+ paddingBottom;
-
-    finalCanvas.height =
-        Math.max(frontCanvas.height, backCanvas.height);
-
-    const ctx = finalCanvas.getContext("2d");
-
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(
-        0,
-        0,
-        finalCanvas.width,
-        finalCanvas.height
-    );
-
-    ctx.drawImage(
-    frontCanvas,
-    sidePadding,
-    paddingTop
-);
-
-ctx.drawImage(
-    backCanvas,
-    frontCanvas.width + (sidePadding * 2),
-    paddingTop
-);
-
-    const link = document.createElement("a");
-
-    link.download = "ID_CARD.jpg";
-
-    link.href =
-        finalCanvas.toDataURL(
-    "image/png"
-)
-
-    link.click();
+    pdf.save("ID_CARD.pdf");
 
 });
 
