@@ -187,15 +187,9 @@ document.getElementById("downloadBtn").addEventListener("click", async function 
         scale: 3,
         useCORS: true,
         backgroundColor: "#ffffff"
-        removeContainer: true
     });
 
     const backClone = back.cloneNode(true);
-    backClone.classList.remove("back");
-backClone.style.transform = "rotateY(0deg)";
-backClone.style.backfaceVisibility = "visible";
-backClone.style.webkitBackfaceVisibility = "visible";
-backClone.style.background = "#ffffff";
 
     backClone.style.width = "360px";
 backClone.style.height = "580px";
@@ -203,18 +197,15 @@ backClone.style.transform = "none";
 backClone.style.position = "absolute";
 backClone.style.left = "-9999px";
 backClone.style.top = "0";
-    backClone.style.backgroundColor = "#ffffff";
-backClone.style.boxShadow = "none";    
-backClone.style.filter = "none";
 
     document.body.appendChild(backClone);
 
     const backCanvas = await html2canvas(backClone, {
-    scale: 3,
-    useCORS: true,
-    backgroundColor: "ffffff",
-        removeContainer: true
-});
+        scale: 3,
+        useCORS: true,
+        backgroundColor: "#ffffff"
+    });
+
     document.body.removeChild(backClone);
 
     const margin = 80;
