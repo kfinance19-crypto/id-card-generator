@@ -301,32 +301,6 @@ body{
 
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
-
-.card::before{
-    content:"";
-    position:absolute;
-    left:16px;
-    top:90px;
-    bottom:35px;
-    width:5px;
-    background:#b8b8b8;
-    border-radius:10px;
-    z-index:50;
-    box-shadow:0 0 8px rgba(0,0,0,0.15);
-}
-
-.card::after{
-    content:"";
-    position:absolute;
-    right:16px;
-    top:90px;
-    bottom:35px;
-    width:5px;
-    background:#b8b8b8;
-    border-radius:10px;
-    z-index:50;
-    box-shadow:0 0 8px rgba(0,0,0,0.15);
-}
 /* CONTACT SECTION */
 
 .contact-row{
