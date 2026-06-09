@@ -77,21 +77,7 @@ body{
   box-shadow:0 20px 50px rgba(0,0,0,.18);
   backface-visibility:hidden;
 }
-.card::before{
-    content:"";
-    position:absolute;
-    top:0;
-    bottom:0;
-    left:50%;
-    width:2px;
-    transform:translateX(-50%);
-    background:rgba(255,255,255,0.55);
-    z-index:1;
-}
 
-.back{
-  transform:rotateY(180deg);
-}
 
 /* DESIGN ELEMENTS */
 .top-strip{
@@ -99,6 +85,24 @@ body{
   background:linear-gradient(135deg,#69B84A,#112B74);
   border-bottom-left-radius:50px;
   border-bottom-right-radius:50px;
+}
+.top-strip::after{
+  content:"";
+  position:absolute;
+  bottom:-490px;
+  left:25px;
+  width:2px;
+  height:490px;
+  background:rgba(255,255,255,.6);
+}
+.top-strip::before{
+  content:"";
+  position:absolute;
+  bottom:-490px;
+  right:25px;
+  width:2px;
+  height:490px;
+  background:rgba(255,255,255,.6);
 }
 
 .bottom-strip{
