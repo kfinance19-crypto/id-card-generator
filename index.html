@@ -203,11 +203,10 @@ backClone.style.filter = "none";
     document.body.appendChild(backClone);
 
     const backCanvas = await html2canvas(backClone, {
-        scale: 3,
-        useCORS: true,
-        backgroundColor: "#ffffff"
-    });
-
+    scale: 3,
+    useCORS: true,
+    backgroundColor: null
+});
     document.body.removeChild(backClone);
 
     const margin = 80;
