@@ -189,12 +189,12 @@ document.getElementById("downloadBtn").addEventListener("click", async function 
 
     // FRONT IMAGE
     const frontCanvas = await html2canvas(front, {
-        scale: 3,
-        useCORS: true,
-        backgroundColor: null
-    });
+    scale: 2,
+    useCORS: true,
+    backgroundColor: "#ffffff"
+});
 
-    const frontImg = frontCanvas.toDataURL("image/jpeg", 0.85);
+    const frontImg = frontCanvas.toDataURL("image/jpeg", 0.75);
 
     pdf.addImage(frontImg, "JPEG", 35, 15, 120, 193);
 
@@ -219,7 +219,7 @@ backClone.style.display = "block";
 
     document.body.removeChild(backClone);
 
-    const backImg = backCanvas.toDataURL("image/jpeg", 0.85);
+    const backImg = backCanvas.toDataURL("image/jpeg", 0.75);
 
     pdf.addPage();
 
