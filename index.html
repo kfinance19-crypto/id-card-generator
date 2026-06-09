@@ -190,6 +190,11 @@ document.getElementById("downloadBtn").addEventListener("click", async function 
     });
 
     const backClone = back.cloneNode(true);
+    backClone.classList.remove("back");
+backClone.style.transform = "rotateY(0deg)";
+backClone.style.backfaceVisibility = "visible";
+backClone.style.webkitBackfaceVisibility = "visible";
+backClone.style.background = "#ffffff";
 
     backClone.style.width = "360px";
 backClone.style.height = "580px";
