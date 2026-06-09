@@ -187,6 +187,7 @@ document.getElementById("downloadBtn").addEventListener("click", async function 
         scale: 3,
         useCORS: true,
         backgroundColor: "#ffffff"
+        removeContainer: true
     });
 
     const backClone = back.cloneNode(true);
@@ -203,6 +204,7 @@ backClone.style.position = "absolute";
 backClone.style.left = "-9999px";
 backClone.style.top = "0";
     backClone.style.backgroundColor = "#ffffff";
+backClone.style.boxShadow = "none";    
 backClone.style.filter = "none";
 
     document.body.appendChild(backClone);
@@ -210,7 +212,8 @@ backClone.style.filter = "none";
     const backCanvas = await html2canvas(backClone, {
     scale: 3,
     useCORS: true,
-    backgroundColor: null
+    backgroundColor: "ffffff",
+        removeContainer: true
 });
     document.body.removeChild(backClone);
 
