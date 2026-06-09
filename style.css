@@ -370,10 +370,3 @@ body{
 .signature-space{
     height:60px;
 }
-.signature-img{
-    width:120px;
-    height:auto;
-    display:block;
-    margin:10px auto 15px;
-    object-fit:contain;
-}
