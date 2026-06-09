@@ -213,13 +213,17 @@ document.getElementById("downloadBtn").addEventListener("click", async function 
     // Combined Canvas
     const finalCanvas = document.createElement("canvas");
 
-    const padding = 80;
+    const paddingTop = 80;
+const paddingBottom = 120;
+const sidePadding = 80;
 
 finalCanvas.width =
-    frontCanvas.width + backCanvas.width + (padding * 3);
+frontCanvas.width + backCanvas.width + (sidePadding * 3);
 
 finalCanvas.height =
-    Math.max(frontCanvas.height, backCanvas.height) + (padding * 2);
+Math.max(frontCanvas.height, backCanvas.height)
++ paddingTop
++ paddingBottom;
 
     finalCanvas.height =
         Math.max(frontCanvas.height, backCanvas.height);
@@ -236,14 +240,14 @@ finalCanvas.height =
 
     ctx.drawImage(
     frontCanvas,
-    padding,
-    padding
+    sidePadding,
+    paddingTop
 );
 
 ctx.drawImage(
     backCanvas,
-    frontCanvas.width + (padding * 2),
-    padding
+    frontCanvas.width + (sidePadding * 2),
+    paddingTop
 );
 
     const link = document.createElement("a");
