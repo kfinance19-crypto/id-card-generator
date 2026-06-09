@@ -29,7 +29,7 @@
     <input type="file" id="photo" accept="image/*">
 
     <button onclick="generateCard()">Generate Card</button>
-    <button id="downloadBtn">Download PDF</button>
+    <button id="downloadBtn">Download JPEG</button>
     <button onclick="flipCard()">Show Front / Back</button>
 
 </div>
@@ -180,49 +180,71 @@ function flipCard(){
 
 document.getElementById("downloadBtn").addEventListener("click", async function () {
 
-    const { jsPDF } = window.jspdf;
-
-    const pdf = new jsPDF("p", "mm", "a4");
-
     const front = document.querySelector(".front");
     const back = document.querySelector(".back");
 
-    // FRONT IMAGE
     const frontCanvas = await html2canvas(front, {
         scale: 3,
         useCORS: true,
-        backgroundColor: null
+        backgroundColor: "#ffffff"
     });
 
-    const frontImg = frontCanvas.toDataURL("image/png");
-
-    pdf.addImage(frontImg, "JPEG", 35, 15, 120, 193);
-
-    // BACK IMAGE
     const backClone = back.cloneNode(true);
 
     backClone.style.transform = "none";
     backClone.style.position = "absolute";
     backClone.style.left = "-9999px";
-    backClone.style.top = "0";
 
     document.body.appendChild(backClone);
 
     const backCanvas = await html2canvas(backClone, {
         scale: 3,
         useCORS: true,
-        backgroundColor: null
+        backgroundColor: "#ffffff"
     });
 
     document.body.removeChild(backClone);
 
-    const backImg = backCanvas.toDataURL("image/png");
+    const margin = 80;
 
-    pdf.addPage();
+    const finalCanvas = document.createElement("canvas");
 
-    pdf.addImage(backImg, "JPEG", 35, 15, 120, 193);
+    finalCanvas.width =
+        frontCanvas.width +
+        backCanvas.width +
+        (margin * 3);
 
-    pdf.save("ID_CARD.pdf");
+    finalCanvas.height =
+        Math.max(frontCanvas.height, backCanvas.height) +
+        (margin * 2);
+
+    const ctx = finalCanvas.getContext("2d");
+
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+
+    ctx.drawImage(
+        frontCanvas,
+        margin,
+        margin
+    );
+
+    ctx.drawImage(
+        backCanvas,
+        frontCanvas.width + (margin * 2),
+        margin
+    );
+
+    const link = document.createElement("a");
+
+    link.download = "ID_CARD.jpg";
+
+    link.href = finalCanvas.toDataURL(
+        "image/jpeg",
+        0.95
+    );
+
+    link.click();
 
 });
 
