@@ -180,63 +180,74 @@ function flipCard(){
 
 document.getElementById("downloadBtn").addEventListener("click", async function () {
 
-    const front = document.querySelector(".front");
-    const back = document.querySelector(".back");
+    const flipCard = document.getElementById("flipCard");
 
-    const frontCanvas = await html2canvas(front, {
-        scale: 3,
-        useCORS: true,
-        backgroundColor: "#ffffff"
-    });
+    // Front capture
+    flipCard.classList.remove("flipped");
 
-    const backClone = back.cloneNode(true);
+    await new Promise(resolve => setTimeout(resolve, 300));
 
-    backClone.style.width = "360px";
-backClone.style.height = "580px";
-backClone.style.transform = "none";
-backClone.style.position = "absolute";
-backClone.style.left = "-9999px";
-backClone.style.top = "0";
+    const frontCanvas = await html2canvas(
+        document.querySelector(".front"),
+        {
+            scale: 3,
+            useCORS: true,
+            backgroundColor: "#ffffff"
+        }
+    );
 
-    document.body.appendChild(backClone);
+    // Back capture
+    flipCard.classList.add("flipped");
 
-    const backCanvas = await html2canvas(backClone, {
-        scale: 3,
-        useCORS: true,
-        backgroundColor: "#ffffff"
-    });
+    await new Promise(resolve => setTimeout(resolve, 300));
 
-    document.body.removeChild(backClone);
+    const backCanvas = await html2canvas(
+        document.querySelector(".back"),
+        {
+            scale: 3,
+            useCORS: true,
+            backgroundColor: "#ffffff"
+        }
+    );
 
+    // Card ko normal state me lao
+    flipCard.classList.remove("flipped");
+
+    // Final image
     const margin = 80;
 
     const finalCanvas = document.createElement("canvas");
 
     finalCanvas.width =
-    frontCanvas.width +
-    backCanvas.width +
-    (margin * 3);
+        frontCanvas.width +
+        backCanvas.width +
+        margin * 3;
 
-finalCanvas.height =
-    Math.max(frontCanvas.height, backCanvas.height) +
-    (margin * 2);
+    finalCanvas.height =
+        Math.max(frontCanvas.height, backCanvas.height) +
+        margin * 2;
 
     const ctx = finalCanvas.getContext("2d");
 
     ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+    ctx.fillRect(
+        0,
+        0,
+        finalCanvas.width,
+        finalCanvas.height
+    );
 
     ctx.drawImage(
-    frontCanvas,
-    margin,
-    margin
-);
+        frontCanvas,
+        margin,
+        margin
+    );
 
-ctx.drawImage(
-    backCanvas,
-    frontCanvas.width + (margin * 2),
-    margin
-);
+    ctx.drawImage(
+        backCanvas,
+        frontCanvas.width + margin * 2,
+        margin
+    );
 
     const link = document.createElement("a");
 
@@ -244,13 +255,12 @@ ctx.drawImage(
 
     link.href = finalCanvas.toDataURL(
         "image/jpeg",
-        0.95
+        1.0
     );
 
     link.click();
 
 });
-
 </script>
 
 </body>
