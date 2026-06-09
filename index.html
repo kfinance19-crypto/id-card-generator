@@ -191,9 +191,12 @@ document.getElementById("downloadBtn").addEventListener("click", async function 
 
     const backClone = back.cloneNode(true);
 
-    backClone.style.transform = "none";
-    backClone.style.position = "absolute";
-    backClone.style.left = "-9999px";
+    backClone.style.width = "360px";
+backClone.style.height = "580px";
+backClone.style.transform = "none";
+backClone.style.position = "absolute";
+backClone.style.left = "-9999px";
+backClone.style.top = "0";
 
     document.body.appendChild(backClone);
 
